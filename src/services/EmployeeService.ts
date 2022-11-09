@@ -3,10 +3,10 @@ import { EmployeeRequest, APIResponse, EmployeeCreationResponse, FunctionalGroup
 
 export class EmployeeService {
 
-    private readonly url = 'http://localhost:8080/employee';
+    private readonly url = 'http://localhost:8080/ud/api/v1/employee';
 
     public async registrarEmpleado(empleado: EmployeeRequest): Promise<APIResponse<EmployeeCreationResponse>> {
-        const response = await axios.post(`${this.url}/registro`, empleado);
+        const response = await axios.post(`${this.url}/create`, empleado);
         return response.data;
     }
 
