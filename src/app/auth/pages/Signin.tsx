@@ -4,7 +4,7 @@ import { Alert, AlertColor, Box, Button, Snackbar, TextField } from "@mui/materi
 import { useForm } from "../../../hooks/useForm";
 import { EstudianteService } from "../services/EstudianteService";
 import { AuthLayout } from "../layouts/AuthLayout";
-import { Estudiante } from "../interfaces";
+import { EmployeeRequest } from "../interfaces";
 
 export const Signin = () => {
     const estudianteService = useMemo(() => new EstudianteService(), []);
@@ -13,13 +13,12 @@ export const Signin = () => {
         message: '',
         type: 'info'
     });
-    const { formState, onInputChange } = useForm<Estudiante>({
-        cedula: '',
-        nombre: '',
-        apellido: '',
-        telefono: '',
+    const { formState, onInputChange } = useForm<EmployeeRequest>({
+        groupId: 0,
+        name: '',
+        lastName: '',
         email: '',
-        password: ''
+        number: ''
     });
 
     const onSubmit = () => {
@@ -28,8 +27,8 @@ export const Signin = () => {
                 console.log(res);
                 setConfigToast({
                     open: true,
-                    message: res.ok ? 'Registro completado satisfactoriamente.' : 'Error al realizar la acción. Intente de nuevo.',
-                    type: res.ok ? 'success' : 'error'
+                    message: res.state ? 'Registro completado satisfactoriamente.' : 'Error al realizar la acción. Intente de nuevo.',
+                    type: res.state ? 'success' : 'error'
                 });
             });
     }
@@ -48,8 +47,8 @@ export const Signin = () => {
             bannerImage="https://cdn-icons-png.flaticon.com/512/6821/6821002.png"
             bannerTitle="¡Manage the job more effectively!"
         >
-            <TextField onChange={onInputChange} value={formState.cedula}
-                name="cedula" label="Cédula" type="number" variant="outlined" fullWidth />
+            <TextField onChange={onInputChange} value={formState.email}
+                name="email" label="Correo" type="number" variant="outlined" fullWidth />
             <Box
                 sx={{
                     display: 'flex',
@@ -58,17 +57,15 @@ export const Signin = () => {
                     gap: '15px'
                 }}
             >
-                <TextField onChange={onInputChange} value={formState.nombre}
-                    name="nombre" label="Nombres" type="text" variant="outlined" fullWidth />
-                <TextField onChange={onInputChange} value={formState.apellido}
-                    name="apellido" label="Apellidos" type="text" variant="outlined" fullWidth />
+                <TextField onChange={onInputChange} value={formState.name}
+                    name="name" label="Nombres" type="text" variant="outlined" fullWidth />
+                <TextField onChange={onInputChange} value={formState.lastName}
+                    name="lastName" label="Apellidos" type="text" variant="outlined" fullWidth />
             </Box>
-            <TextField onChange={onInputChange} value={formState.telefono}
-                name="telefono" label="Teléfono" type="number" variant="outlined" fullWidth />
+            <TextField onChange={onInputChange} value={formState.number}
+                name="number" label="Teléfono" type="number" variant="outlined" fullWidth />
             <TextField onChange={onInputChange} value={formState.email}
                 name="email" label="Email" type="email" variant="outlined" fullWidth />
-            <TextField onChange={onInputChange} value={formState.password}
-                name="password" label="Contraseña" type="password" variant="outlined" fullWidth />
 
             <Button
                 className="button button--global"

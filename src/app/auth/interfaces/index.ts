@@ -1,14 +1,23 @@
 
-export interface Estudiante {
-    cedula: string;
-    nombre: string;
-    apellido: string;
-    telefono: string;
+export interface EmployeeRequest {
+    groupId:number;
+    name: string;
+    lastName: string;
+    number: string;
     email: string;
-    password: string;
 }
 
-export interface Respuesta {
-    ok: boolean;
+export interface APIResponse<T> {
+    state: boolean;
     message?: string;
+    data:T;
+}
+
+export interface EmployeeCreationResponse{
+
+}
+
+export interface FunctionalGroup{
+    groupId:number;
+    nameGroup:string;
 }
