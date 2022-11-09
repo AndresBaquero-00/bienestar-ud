@@ -1,14 +1,20 @@
 import { useMemo, useState, useEffect } from "react";
-import { Alert, AlertColor, Box, Button, FormControl, InputLabel, MenuItem, Select, Snackbar, TextField } from "@mui/material";
+import { Alert, AlertColor, FormControlLabel, Snackbar, Switch } from "@mui/material";
 
 import { useForm } from "../../../hooks";
 import { EmployeeService } from "../../../services";
-import { EmployeeRequest, FunctionalGroup } from "../../../interfaces";
+import { EmployeeQuery, EmployeeRequest, FunctionalGroup } from "../../../interfaces";
 
 import { AuthLayout } from "../layouts/AuthLayout";
+import { FormComponent } from "../components/FormComponent";
+import { ListComponent } from "../components/ListComponent";
 
 export const Signin = () => {
     const employeeService = useMemo(() => new EmployeeService(), []);
+    const [configPagina, setConfigPagina] = useState({
+        mostrarEmpleados: false,
+        titulo: 'Regístrate',
+    });
     const [configToast, setConfigToast] = useState({
         open: false,
         message: '',
@@ -22,13 +28,21 @@ export const Signin = () => {
         })
     }
     const [gruposFuncionales, setGruposFuncionales] = useState([] as FunctionalGroup[]);
+    const [empleados, setEmpleados] = useState([] as EmployeeQuery[]);
     useEffect(() => {
         employeeService.consultarGruposFuncionales()
             .then(res => {
                 const { data } = res;
                 setGruposFuncionales(data);
             });
+
+        employeeService.consultarEmpleados()
+            .then(res => {
+                const { data } = res;
+                setEmpleados(data);
+            })
     }, [employeeService]);
+    
     const { formState, onInputChange } = useForm<EmployeeRequest>({
         groupId: 0,
         name: '',
@@ -36,7 +50,6 @@ export const Signin = () => {
         email: '',
         number: ''
     });
-
     const onSubmit = () => {
         employeeService.registrarEmpleado(formState)
             .then(res => {
@@ -50,45 +63,32 @@ export const Signin = () => {
 
     return (
         <AuthLayout
-            title="Regístrate"
-            bannerImage="https://cdn-icons-png.flaticon.com/512/6821/6821002.png"
-            bannerTitle="¡Manage the job more effectively!"
+            title={configPagina.titulo}
+            bannerImage="https://pbs.twimg.com/profile_images/1108821606388895744/RKGG9dsZ_400x400.png"
+            bannerTitle="¡Sé parte del módulo de bienestar!"
         >
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    gap: '15px'
-                }}
-            >
-                <TextField onChange={onInputChange} value={formState.name}
-                    name="name" label="Nombres" type="text" variant="outlined" fullWidth />
-                <TextField onChange={onInputChange} value={formState.lastName}
-                    name="lastName" label="Apellidos" type="text" variant="outlined" fullWidth />
-            </Box>
-            <TextField onChange={onInputChange} value={formState.number}
-                name="number" label="Teléfono" type="number" variant="outlined" fullWidth />
-            <TextField onChange={onInputChange} value={formState.email}
-                name="email" label="Correo Electrónico" type="email" variant="outlined" fullWidth />
+            {
+                !configPagina.mostrarEmpleados ?
+                <FormComponent formState={formState} gruposFuncionales={gruposFuncionales}
+                    onInputChange={onInputChange} onSubmit={onSubmit} />
+                : <ListComponent title='Empleados Registrados' 
+                    header={['Código', 'Nombre', 'Apellido', 'Email', 'Teléfono']} rows={empleados} />
+            }
 
-            <FormControl fullWidth>
-                <InputLabel>Grupo Funcional</InputLabel>
-                <Select label="Grupo Funcional" name="groupId" 
-                    onChange={onInputChange} value={formState.groupId === 0 ? '':formState.groupId}>
-                    {
-                        gruposFuncionales.map(({ groupId, nameGroup }) => (
-                            <MenuItem key={groupId} value={groupId}>{nameGroup}</MenuItem>
-                        ))
-                    }
-                </Select>
-            </FormControl>
-
-            <Button className="button button--global" onClick={onSubmit}
-                sx={{ marginTop: '25px' }} fullWidth
-            >
-                Registrar
-            </Button>
+            <FormControlLabel 
+                control={
+                    <Switch 
+                        checked={configPagina.mostrarEmpleados} 
+                        onChange={(e) => {
+                            setConfigPagina({
+                                mostrarEmpleados: e.target.checked,
+                                titulo: e.target.checked ? '':'Regístrate'
+                            });
+                        }}
+                    />
+                } 
+                label="Mostrar Empleados" 
+            />
 
             {/* Toast para mostrar respuesta del API. */}
             <Snackbar open={configToast.open} autoHideDuration={2500} onClose={handleClose}>

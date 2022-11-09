@@ -17,7 +17,8 @@
         justify-content: center;
         gap: 50px;
         position: relative;
-        width: 500px;
+        width: 35%;
+        min-width: 500px;
 
         .button--back {
             top: 10px;
@@ -32,7 +33,7 @@
         }
 
         .banner__image {
-            width: 85%;
+            width: 70%;
             display: block;
             margin: 0 auto;
         }
@@ -41,11 +42,12 @@
     .auth__content {
         width: calc(100% - 500px);
         display: flex;
-        justify-content: center;
         align-items: center;
+        justify-content: center;
+
 
         .content__container {
-            width: 500px;
+            min-width: 500px;
         }
 
         .content__title {

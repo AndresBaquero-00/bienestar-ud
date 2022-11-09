@@ -1,5 +1,12 @@
 import axios from "axios";
-import { EmployeeRequest, APIResponse, EmployeeCreationResponse, FunctionalGroup } from "../interfaces";
+
+import { 
+    EmployeeRequest, 
+    APIResponse, 
+    EmployeeCreationResponse, 
+    FunctionalGroup, 
+    EmployeeQuery 
+} from "../interfaces";
 
 export class EmployeeService {
 
@@ -10,31 +17,13 @@ export class EmployeeService {
         return response.data;
     }
 
+    public async consultarEmpleados(): Promise<APIResponse<EmployeeQuery[]>> {
+        const response = await axios.get(this.url);
+        return response.data;
+    }
+
     public async consultarGruposFuncionales(): Promise<APIResponse<FunctionalGroup[]>> {
         const response = await axios.get(`${this.url}/find-groups`);
         return response.data;
-        /* return ({
-            "state": true,
-            "message": "Consulta exitosa.",
-            "code": "200",
-            "data": [
-                {
-                    "groupId": 2,
-                    "nameGroup": "Grupo Funcional Deportes"
-                },
-                {
-                    "groupId": 3,
-                    "nameGroup": "Grupo Funcional Ambiental"
-                },
-                {
-                    "groupId": 4,
-                    "nameGroup": "Grupo Funcional Economico"
-                },
-                {
-                    "groupId": 1,
-                    "nameGroup": "Grupo Funcional Arte y Cultura"
-                }
-            ]
-        }); */
     }
 }

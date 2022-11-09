@@ -1,6 +1,7 @@
 import { Box, IconButton } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
-import { useResize } from "../../../hooks/useResize";
+
+import { useResize } from "../../../hooks";
 
 type Props = {
     title: string;

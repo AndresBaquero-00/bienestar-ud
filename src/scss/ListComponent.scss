@@ -1,0 +1,38 @@
+@import 'src/variables.scss';
+
+.list {
+    box-shadow: rgb(145 158 171 / 20%) 0px 0px 2px 0px, rgb(145 158 171 / 20%) 0px 12px 24px -4px;
+    border-radius: 10px;
+    padding: 20px 30px;
+
+    .list__title {
+        color: rgb(33, 43, 54);
+    }
+
+    .list__table {
+        margin-top: 30px;
+
+        .table__cell-head {
+            color: white;
+            background-color: $main-color;
+            font-weight: 600;
+            border: none;
+
+            &:first-of-type {
+                border-top-left-radius: 15px;
+                border-bottom-left-radius: 15px;
+            }
+
+            &:last-of-type {
+                border-top-right-radius: 15px;
+                border-bottom-right-radius: 15px;
+            }
+        }
+
+
+        .table__cell-body {
+            border: none;
+            font-weight: 600;
+        }
+    }
+}

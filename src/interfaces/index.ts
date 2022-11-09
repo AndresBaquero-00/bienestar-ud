@@ -1,10 +1,12 @@
-
-export interface EmployeeRequest {
-    groupId:number;
+export interface Employee {
     name: string;
     lastName: string;
-    number: string;
     email: string;
+}
+
+export interface EmployeeRequest extends Employee {
+    groupId: number;
+    number: string;
 }
 
 export interface APIResponse<T = unknown> {
@@ -12,6 +14,11 @@ export interface APIResponse<T = unknown> {
     message: string;
     code: string;
     data: T;
+}
+
+export interface EmployeeQuery extends Employee {
+    code: string;
+    phone: string;
 }
 
 export interface EmployeeCreationResponse {}
