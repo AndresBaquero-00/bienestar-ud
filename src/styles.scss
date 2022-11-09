@@ -30,7 +30,7 @@
     }
 }
 
-.MuiTextField-root {
+.MuiTextField-root, .MuiFormControl-root {
     & label.Mui-focused {
         color: $main-color;
     }

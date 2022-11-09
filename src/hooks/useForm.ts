@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from "react";
+import { useState } from "react";
 
 export const useForm = <T>(initialForm: T) => {
     const [formState, setFormState] = useState(initialForm);
@@ -7,18 +7,9 @@ export const useForm = <T>(initialForm: T) => {
         setFormState(initialForm);
     }
 
-    const onInputChange = ({ currentTarget }: ChangeEvent<HTMLInputElement>, isFile?: boolean) => {
-        if (isFile) {
-            const { name, files } = currentTarget;
-            setFormState({
-                ...formState,
-                [name]: files?.item(0)
-            });
-
-            return;
-        }
-
-        const { name, value } = currentTarget;
+    const onInputChange = (event?: any) => {
+        const { target } = event;
+        const { name, value } = target;
         setFormState({
             ...formState,
             [name]: value

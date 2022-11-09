@@ -1,18 +1,34 @@
-import { useMemo, useState } from "react";
-import { Alert, AlertColor, Box, Button, Snackbar, TextField } from "@mui/material";
+import { useMemo, useState, useEffect } from "react";
+import { Alert, AlertColor, Box, Button, FormControl, InputLabel, MenuItem, Select, Snackbar, TextField } from "@mui/material";
 
-import { useForm } from "../../../hooks/useForm";
-import { EstudianteService } from "../services/EstudianteService";
+import { useForm } from "../../../hooks";
+import { EmployeeService } from "../../../services";
+import { EmployeeRequest, FunctionalGroup } from "../../../interfaces";
+
 import { AuthLayout } from "../layouts/AuthLayout";
-import { EmployeeRequest } from "../interfaces";
 
 export const Signin = () => {
-    const estudianteService = useMemo(() => new EstudianteService(), []);
+    const employeeService = useMemo(() => new EmployeeService(), []);
     const [configToast, setConfigToast] = useState({
         open: false,
         message: '',
         type: 'info'
     });
+    const handleClose = () => {
+        setConfigToast({
+            open: false,
+            message: '',
+            type: 'info'
+        })
+    }
+    const [gruposFuncionales, setGruposFuncionales] = useState([] as FunctionalGroup[]);
+    useEffect(() => {
+        employeeService.consultarGruposFuncionales()
+            .then(res => {
+                const { data } = res;
+                setGruposFuncionales(data);
+            });
+    }, [employeeService]);
     const { formState, onInputChange } = useForm<EmployeeRequest>({
         groupId: 0,
         name: '',
@@ -22,9 +38,8 @@ export const Signin = () => {
     });
 
     const onSubmit = () => {
-        estudianteService.registrarEstudiante(formState)
+        employeeService.registrarEmpleado(formState)
             .then(res => {
-                console.log(res);
                 setConfigToast({
                     open: true,
                     message: res.state ? 'Registro completado satisfactoriamente.' : 'Error al realizar la acción. Intente de nuevo.',
@@ -33,22 +48,12 @@ export const Signin = () => {
             });
     }
 
-    const handleClose = () => {
-        setConfigToast({
-            open: false,
-            message: '',
-            type: 'info'
-        })
-    }
-
     return (
         <AuthLayout
             title="Regístrate"
             bannerImage="https://cdn-icons-png.flaticon.com/512/6821/6821002.png"
             bannerTitle="¡Manage the job more effectively!"
         >
-            <TextField onChange={onInputChange} value={formState.email}
-                name="email" label="Correo" type="number" variant="outlined" fullWidth />
             <Box
                 sx={{
                     display: 'flex',
@@ -65,17 +70,27 @@ export const Signin = () => {
             <TextField onChange={onInputChange} value={formState.number}
                 name="number" label="Teléfono" type="number" variant="outlined" fullWidth />
             <TextField onChange={onInputChange} value={formState.email}
-                name="email" label="Email" type="email" variant="outlined" fullWidth />
+                name="email" label="Correo Electrónico" type="email" variant="outlined" fullWidth />
 
-            <Button
-                className="button button--global"
-                onClick={onSubmit}
-                sx={{
-                    marginTop: '25px'
-                }}
+            <FormControl fullWidth>
+                <InputLabel>Grupo Funcional</InputLabel>
+                <Select label="Grupo Funcional" name="groupId" 
+                    onChange={onInputChange} value={formState.groupId === 0 ? '':formState.groupId}>
+                    {
+                        gruposFuncionales.map(({ groupId, nameGroup }) => (
+                            <MenuItem key={groupId} value={groupId}>{nameGroup}</MenuItem>
+                        ))
+                    }
+                </Select>
+            </FormControl>
+
+            <Button className="button button--global" onClick={onSubmit}
+                sx={{ marginTop: '25px' }} fullWidth
             >
                 Registrar
             </Button>
+
+            {/* Toast para mostrar respuesta del API. */}
             <Snackbar open={configToast.open} autoHideDuration={2500} onClose={handleClose}>
                 <Alert severity={configToast.type as AlertColor} sx={{ width: '100%' }} onClose={handleClose}>
                     {configToast.message}
