@@ -18,7 +18,7 @@ export class EmployeeService {
     }
 
     public async consultarEmpleados(): Promise<APIResponse<EmployeeQuery[]>> {
-        const response = await axios.get(this.url);
+        const response = await axios.get(`${this.url}/all`);
         return response.data;
     }
 
