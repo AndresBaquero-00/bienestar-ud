@@ -17,8 +17,8 @@ export const ListComponent = ({ title, header, rows }: Props) => {
                     <TableHead>
                         <TableRow>
                             {
-                                header.map(head => (
-                                    <TableCell align="left" className="table__cell-head">{head}</TableCell>
+                                header.map((head, index) => (
+                                    <TableCell key={index} align="left" className="table__cell-head">{head}</TableCell>
                                 ))
                             }
                         </TableRow>

@@ -42,8 +42,8 @@ export const Signin = () => {
                 setEmpleados(data);
             })
     }, [employeeService]);
-    
-    const { formState, onInputChange } = useForm<EmployeeRequest>({
+
+    const { formState, onInputChange, onResetForm } = useForm<EmployeeRequest>({
         groupId: 0,
         name: '',
         lastName: '',
@@ -53,6 +53,12 @@ export const Signin = () => {
     const onSubmit = () => {
         employeeService.registrarEmpleado(formState)
             .then(res => {
+                employeeService.consultarEmpleados()
+                    .then(res => {
+                        const { data } = res;
+                        setEmpleados(data);
+                    })
+                onResetForm();
                 setConfigToast({
                     open: true,
                     message: res.state ? 'Registro completado satisfactoriamente.' : 'Error al realizar la acción. Intente de nuevo.',
@@ -69,25 +75,25 @@ export const Signin = () => {
         >
             {
                 !configPagina.mostrarEmpleados ?
-                <FormComponent formState={formState} gruposFuncionales={gruposFuncionales}
-                    onInputChange={onInputChange} onSubmit={onSubmit} />
-                : <ListComponent title='Empleados Registrados' 
-                    header={['Código', 'Nombre', 'Apellido', 'Email', 'Teléfono']} rows={empleados} />
+                    <FormComponent formState={formState} gruposFuncionales={gruposFuncionales}
+                        onInputChange={onInputChange} onSubmit={onSubmit} />
+                    : <ListComponent title='Empleados Registrados'
+                        header={['Código', 'Nombre', 'Apellido', 'Email', 'Teléfono']} rows={empleados} />
             }
 
-            <FormControlLabel 
+            <FormControlLabel
                 control={
-                    <Switch 
-                        checked={configPagina.mostrarEmpleados} 
+                    <Switch
+                        checked={configPagina.mostrarEmpleados}
                         onChange={(e) => {
                             setConfigPagina({
                                 mostrarEmpleados: e.target.checked,
-                                titulo: e.target.checked ? '':'Regístrate'
+                                titulo: e.target.checked ? '' : 'Regístrate'
                             });
                         }}
                     />
-                } 
-                label="Mostrar Empleados" 
+                }
+                label="Mostrar Empleados"
             />
 
             {/* Toast para mostrar respuesta del API. */}
