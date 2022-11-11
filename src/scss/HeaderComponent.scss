@@ -1,0 +1,45 @@
+@import '../variables.scss';
+
+$header-height: 100px;
+
+.header {
+    width: 100%;
+    height: $header-height;
+    padding: 0 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-between;
+    background-color: transparent;
+
+    .header__logo {
+        width: $header-height;
+        height: $header-height;
+        background-size: contain;
+        background-image: url(https://www.guninetwork.org/files/universidad_francisco_jose_de_caldas.png);
+    }
+
+    .header__menu {
+        height: $header-height;
+
+        .menu {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+
+            .menu__item {
+                text-decoration: none;
+                user-select: none;
+                border-radius: 5px;
+                padding: 10px 15px;
+                transition: .15s;
+                color: #FFFFFF;
+
+                &:hover {
+                    background-color: rgba($color: #FFFFFF, $alpha: 0.3);
+                }
+            }
+        }
+    }
+}

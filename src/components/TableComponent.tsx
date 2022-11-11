@@ -1,24 +1,34 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-
-import { EmployeeQuery } from "../../../interfaces";
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 
 type Props = {
     title: string;
     header: string[];
-    rows: EmployeeQuery[];
+    rows: Object[];
 }
 
-export const ListComponent = ({ title, header, rows }: Props) => {
+export const TableComponent = ({ title, header, rows }: Props) => {
+    if (rows.length === 0) {
+        return (
+            <Typography component="p">
+                No hay elementos para mostrar.
+            </Typography>
+        )
+    }
+
     return (
-        <div className="list">
-            <h1 className="list__title">{ title }</h1>
+        <Box className="list">
+            <Typography component="h1" className="list__title">
+                {title}
+            </Typography>
             <TableContainer component="div">
                 <Table className="list__table">
                     <TableHead>
                         <TableRow>
                             {
                                 header.map((head, index) => (
-                                    <TableCell key={index} align="left" className="table__cell-head">{head}</TableCell>
+                                    <TableCell key={index} align="left" className="table__cell-head">
+                                        {head}
+                                    </TableCell>
                                 ))
                             }
                         </TableRow>
@@ -40,6 +50,6 @@ export const ListComponent = ({ title, header, rows }: Props) => {
                     </TableBody>
                 </Table>
             </TableContainer>
-        </div>
+        </Box>
     )
 }

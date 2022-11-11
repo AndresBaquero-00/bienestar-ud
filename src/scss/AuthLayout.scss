@@ -1,126 +1,178 @@
-@import 'src/variables.scss';
+@import '../variables.scss';
 
-.auth {
+.auth-page {
     width: 100%;
     min-height: 100vh;
     display: flex;
-    align-items: stretch;
+    align-items: center;
+    justify-content: center;
 
-    .auth__banner {
-        box-shadow: rgb(145 158 171 / 20%) 0px 0px 2px 0px, 
-                    rgb(145 158 171 / 12%) 0px 12px 24px -4px;
-        border-radius: 20px;
-        margin: 15px 0px 15px 15px;
-        color: rgb(33, 43, 54);
+    .banner__section, .content__section {
+        min-height: 100vh;
+    }
+
+    .banner__section {
+        width: 45%;
         display: flex;
         flex-direction: column;
+        align-items: center;
         justify-content: center;
-        gap: 50px;
         position: relative;
-        width: 35%;
-        min-width: 500px;
-
-        .button--back {
-            top: 10px;
-            left: 10px;
-            color: inherit;
-            position: absolute;
-        }
-
-        .banner__title {
-            padding: 0 40px;
-            width: 100%;
-        }
 
         .banner__image {
-            width: 70%;
-            display: block;
-            margin: 0 auto;
+            width: 75%;
+            max-width: 400px;
+            height: 50vh;
+            max-height: 450px;
+            background-image: url(https://www.guninetwork.org/files/universidad_francisco_jose_de_caldas.png);
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: .2s;
+            cursor: pointer;
+
+            &:hover {
+                scale: 1.05;
+            }
+        }
+
+        .banner__desc {
+            width: 80%;
+            color: #FFFFFF;
+
+            .desc__title, .desc__text {
+                text-align: center;
+            }
+
+            .desc__title {
+                font-size: 35px;
+                margin-top: 15px;
+                font-weight: 600;
+                line-height: 35px;
+            }
+
+            .desc__text {
+                font-size: 20px;
+                margin: 25px 0;
+                font-weight: 300;
+            }
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-color: $secondary-color;
+            z-index: -1;
+            filter: brightness(0.8);
+            /* clip-path: polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%); */
         }
     }
 
-    .auth__content {
-        width: calc(100% - 500px);
+    .content__section {
+        width: 55%;
+        position: relative;
         display: flex;
-        align-items: center;
+        flex-direction: column;
         justify-content: center;
+        align-items: center;
 
+        .content__button-back {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            
+            button {
+                padding: 10px;
 
-        .content__container {
-            min-width: 500px;
+                svg {
+                    width: 30px;
+                    height: 30px;
+                    color: #2b2b2b;
+                }
+            }
         }
 
         .content__title {
-            padding: 40px 0 20px;
-            font-weight: 700;
-            box-sizing: border-box;
-            font-size: 45px;
-        }
-
-        .content__auth-with {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+            font-size: 35px;
+            font-weight: 600;
+            color: #2b2b2b;
         }
 
         .content__form {
+            width: 60%;
+            padding: 50px 0;
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            margin: 15px 0 50px;
-        }
-
-        .content__notAction {
-            display: flex;
             justify-content: center;
             align-items: center;
-            margin: 50px 0;
 
-            a {
-                text-decoration: none;
-                color: $main-color;
+            form {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
+
+                .button--global {
+                    margin-top: 40px;
+                }
+            }
+
+            .list {
+                width: 150%;
             }
         }
     }
 }
 
 @media (max-width: 900px) {
-    .auth {
+    .auth-page {
         flex-direction: column;
 
-        .auth__banner {
-            width: 90%;
-            margin: 15px auto;
-            gap: 10px;
+        .banner__section, .content__section {
+            width: 100%;
+            min-height: fit-content;
+            padding: 30px;
+        }
 
-            .button--back {
-                position: absolute;
-                top: 0;
-                bottom: 0;
-            }
-
-            .banner__title {
-                padding: 0;
-                width: auto;
-                max-width: 250px;
-                text-align: center;
-                font-size: 20px;
-            }
+        .banner__section {
+            padding-top: 10px;
 
             .banner__image {
-                width: auto;
-                max-height: 200px;
+                width: 200px;
+                height: 220px;
+            }
+
+            .banner__desc {
+                width: 100%;
+
+                .desc__title {
+                    margin: 0;
+                    font-size: 25px;
+                    line-height: 25px;
+                }
+    
+                .desc__text {
+                    margin: 10px 0;
+                    font-size: 15px;
+                }
             }
         }
 
-        .auth__content {
-            width: 100%;
-            padding: 20px;
-            box-sizing: border-box;
-
+        .content__section {    
             .content__title {
-                padding-top: 0;
+                font-size: 30px;
+            }
+    
+            .content__form {
+                width: 90%;
+
+                .list {
+                    width: 100%;
+                }
             }
         }
-    }
+    }       
 }

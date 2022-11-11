@@ -8,12 +8,14 @@ export const useForm = <T>(initialForm: T) => {
     }
 
     const onInputChange = (event?: any) => {
-        const { target } = event;
-        const { name, value } = target;
-        setFormState({
-            ...formState,
-            [name]: value
-        });
+        if ('target' in event) {
+            const { target } = event;
+            const { name, value } = target;
+            setFormState({
+                ...formState,
+                [name]: value
+            });
+        }
     }
 
     return {

@@ -5,8 +5,13 @@ export interface Employee {
 }
 
 export interface EmployeeRequest extends Employee {
-    groupId: number;
-    number: string;
+    groupId: number | string;
+    number: number | string;
+}
+
+export interface EmployeeQuery extends Employee {
+    code: number | string;
+    phone: number | string;
 }
 
 export interface APIResponse<T = unknown> {
@@ -16,14 +21,7 @@ export interface APIResponse<T = unknown> {
     data: T;
 }
 
-export interface EmployeeQuery extends Employee {
-    code: string;
-    phone: string;
-}
-
-export interface EmployeeCreationResponse {}
-
 export interface FunctionalGroup {
-    groupId: number;
+    groupId: number | string;
     nameGroup: string;
 }

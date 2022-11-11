@@ -1,12 +1,14 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { Signin } from "./app/auth/pages/Signin";
+import { SigninPage } from "./app/auth";
 
 const App = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/signin" element={<Signin />} />
-                <Route path="/*" element={<Navigate  to="/signin"/>} />
+                <Route path="/signin" element={<SigninPage />} />
+
+                {/* Redireccionamiento para rutas no existentes. */}
+                <Route path="/*" element={<Navigate to="/signin"/>} />
             </Routes>
         </BrowserRouter>
     )
